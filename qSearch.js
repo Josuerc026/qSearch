@@ -1,14 +1,14 @@
 class qSearch{
-	constructor(containerName, options){  
-  
-  	let qsContainer = `[data-qSearch-set=${containerName}]`;
+	constructor(containerName, options){
+    let qsContainer = `[data-qSearch-set=${containerName}]`; 
     let itemName = `[data-qSearch-item=${options.dataAttr}]`;
+
+    this._container = document.querySelector(qsContainer);
     
   	if(options.hasOwnProperty('dataAttr')){
     	this._items = document.querySelectorAll(itemName);
     }
   	
-  	this._container = document.querySelector(qsContainer);
    	this._data = Array.prototype.slice.call(this._items);
   }
   
