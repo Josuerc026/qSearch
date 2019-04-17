@@ -1,6 +1,6 @@
 export default class QSBase {
-
-	constructor(containerName, options){
+  
+  constructor(containerName, options){
     this._container = document.querySelector(`[data-qSearch-set=${containerName}]`);
     this._data = this.dataHandler(options);
   }
