@@ -6,15 +6,15 @@ export default class QSBase {
   }
   
   dataHandler(options){
-   if(!options.hasOwnProperty('data')) return;
-   
-   if(typeof options.data == 'string'){
-   	return this.setSingleData(options.data);
-   }
-   
-   if(typeof options.data == 'object'){
-   	return this.setMultipleData(options.data);
-   }
+    if(!options.hasOwnProperty('data')) return;
+
+    if(typeof options.data == 'string'){
+      return this.setSingleData(options.data);
+    }
+    
+    if(typeof options.data == 'object'){
+     return this.setMultipleData(options.data);
+    }
   }
   
   setSingleData(data){
@@ -25,14 +25,15 @@ export default class QSBase {
   }
  
   setMultipleData(dataArray){
-  	let list = this._container.querySelector(`[data-qs-list]`);
+    let list = this._container.querySelector(`[data-qs-list]`);
     let allItems = Array.prototype.slice.call(list.children);
     
     this._data = allItems.map(elm => {
-    	let values = {};
+      let values = {};
       for(let i = 0; i < dataArray.length; i++){
         values[dataArray[i]] = elm.querySelector(`[data-qs-item=${dataArray[i]}]`).innerText;
       }
+      
       return values;
     });
   }
