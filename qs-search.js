@@ -7,8 +7,7 @@ class QSearch extends QSBase {
     }
 
     search(value) {
-        let rxp = new RegExp(value, 'gim');
-        let filtered = this._data.filter(item => rxp.test(item.compare));
+        let filtered = this._data.filter(item => item.compare.toLowerCase().indexOf(value.toLowerCase()) > -1);
 
         this.render(filtered);
     }

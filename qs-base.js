@@ -49,7 +49,7 @@ export default class QSBase {
 
   // Object setup for each element in list by storing:
   // * qs-item as key/value pair (e.g. <span data-qs-item="name">John<span> -> name: john)
-  // * compare property is the string that will be compared by the regExp engine
+  // * compare property is the string that will be compared by search method
   // * elm is the list item that will be stored to re-render
   setDataProperties(dataArray) {
     return (elm) => {
