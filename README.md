@@ -1,7 +1,7 @@
 # qSearch
 List Search/Filter Class with data-attribute driven API
 
-## Example
+## Basic Example
 
 ```javascript
 // A new list instance
