@@ -12,7 +12,18 @@ let list = new QSearch('list_one', {
 let input = document.querySelector('.search');
 
 input.addEventListener('keyup', function(){
-  list.search(this.value);
+  
+  // Search takes in a value to compare
+  // Callback is executed right before the filtered list is rendered on the page
+  list.search(this.value, (elms, count) => {
+    console.log(`Search occurred! There are ${elms.length} items found`);
+    
+    if(elms.length === count){
+        elms.forEach(item => item.classList.remove('new-item'));
+    }else{
+        elms.forEach(item => item.classList.add('new-item'));
+    }
+  });
 });
 ```
 

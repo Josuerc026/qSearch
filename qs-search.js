@@ -62,16 +62,19 @@ class QSearch {
             for (let i = 0; i < dataArray.length; i++) {
                 values[dataArray[i]] = elm.querySelector(`[data-qs-item=${dataArray[i]}]`).innerText;
             }
-            
+
             return values;
         }
     }
 
     // Search data by using compare string defined in the items object
     // Checking if value exists within string by checking its index
-    search(value) {
+    search(value, callback) {
         let filtered = this._data.filter(item => item.compare.toLowerCase().indexOf(value.toLowerCase()) > -1);
 
+        // The callback gets called before render for flexibility
+        callback(filtered.map(item => item.elm), this._data.length);
+        
         this.render(filtered);
     }
 
