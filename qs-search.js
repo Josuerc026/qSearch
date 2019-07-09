@@ -1,19 +1,31 @@
 class QSearch {
 
     constructor(containerName, options) {
-        this._container = this.setContainer(containerName);
-        this._list = this.setList();
+        this._set = this.storeSet(containerName);
+        this._list = this.storeList();
         this._data = this.dataHandler(options);
+        this._backupData = this._data;
     }
 
     // Stores the qs-set container
-    setContainer(containerName) {
-        return document.querySelector(`[data-qs-set=${containerName}]`);
+    storeSet(containerName) {
+        if(typeof containerName !== 'string' || !containerName){
+            throw Error('A QSearch Set hasnt been properly defined.');
+        }
+        return  document.querySelector(`[data-qs-set=${containerName}]`) ? 
+                document.querySelector(`[data-qs-set=${containerName}]`) : 
+                { 
+                    name: containerName, 
+                    exists: false
+                };
     }
 
     // Stores the qs-list within container
-    setList() {
-        return this._container.querySelector(`[data-qs-list]`);
+    storeList() {
+        if(this._set.hasOwnProperty('exists') && !this._set.exists){
+            throw Error(`${this._set.name} doesnt exist.`);
+        }
+        return this._set.querySelector(`[data-qs-list]`);
     }
 
     // Handles type checking for the passed data in options
@@ -21,13 +33,13 @@ class QSearch {
     dataHandler(options) {
         if (!options.hasOwnProperty('data')) return;
 
-        let data = options.data;
+        const data = options.data;
 
-        if (typeof data != 'object') {
+        if (!Array.isArray(data) && typeof data == 'string') {
             data = this.convertToArray(data);
         }
 
-        if (typeof data == 'object') {
+        if (Array.isArray(data)) {
             return this.setData(data);
         } else {
             throw Error('data option is not an array.');
@@ -43,7 +55,6 @@ class QSearch {
     setData(dataArray) {
         let allItems = Array.prototype.slice.call(this._list.children);
         let propertySetup = this.setDataProperties(dataArray);
-
         return allItems.map(elm => propertySetup(elm));
     }
 
@@ -54,15 +65,12 @@ class QSearch {
 
             // * elm is the list item element that will be stored to re-render
             values.elm = elm;
-
             // * compare property is the string that will be compared by search method
-            values.compare = elm.innerText;
-
+            values.text = elm.innerText;
             // * qs-item as key/value pair (e.g. <span data-qs-item="name">John<span> -> name: john)
             for (let i = 0; i < dataArray.length; i++) {
                 values[dataArray[i]] = elm.querySelector(`[data-qs-item=${dataArray[i]}]`).innerText;
             }
-
             return values;
         }
     }
@@ -70,12 +78,27 @@ class QSearch {
     // Search data by using compare string defined in the items object
     // Checking if value exists within string by checking its index
     search(value, callback) {
-        let filtered = this._data.filter(item => item.compare.toLowerCase().indexOf(value.toLowerCase()) > -1);
+        let searched = this._data.filter( item => item.text.toLowerCase().indexOf(value.toLowerCase()) > -1 );
 
-        // The callback gets called before render for flexibility
-        callback(filtered.map(item => item.elm), this._data.length);
-        
+        // The callback gets called before render
+        callback(searched.map(item => item.elm), this._data.length);
+        this.render(searched);
+    }
+
+    // Filter items by provided value
+    // keepState will maintain the lists new filtered state across actions
+    filter(value, keepState){
+        let filtered = this._data.filter( item => !(item.text.toLowerCase().indexOf(value.toLowerCase()) > -1) );
+        if(keepState){
+            this._data = filtered;
+        }
         this.render(filtered);
+    }
+
+    // Restores filtered lists to original state before keepState was enabled
+    restoreAll(){
+        this._data = this._backupData;
+        this.render(this._data);
     }
 
     // Sort handler checks if both arguments are defined
