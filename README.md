@@ -18,7 +18,7 @@ List Search/Filter Class with data-attribute driven API
 | .sort(attribute: string, sortBy: string) | Sort a given attribute by either DESC or ASC, passed in as the second parameter. |
 
 
-## Creating a new searchable list instance
+## How to create a new searchable list instance
 
 A set is the overarching container that wraps around the searchable list. Set a name for the set using the *data-qs-set* attribute.
 
