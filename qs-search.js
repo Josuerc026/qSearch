@@ -31,9 +31,9 @@ class QSearch {
     // Handles type checking for the passed data in options
     // continues only if data is an array
     dataHandler(options) {
-        if (!options.hasOwnProperty('data')) return;
+        if (!options.hasOwnProperty('attrs')) return;
 
-        const data = options.data;
+        const data = options.attrs;
 
         if (!Array.isArray(data) && typeof data == 'string') {
             data = this.convertToArray(data);
@@ -67,9 +67,10 @@ class QSearch {
             values.elm = elm;
             // * compare property is the string that will be compared by search method
             values.text = elm.innerText;
+
             // * qs-item as key/value pair (e.g. <span data-qs-item="name">John<span> -> name: john)
             for (let i = 0; i < dataArray.length; i++) {
-                values[dataArray[i]] = elm.querySelector(`[data-qs-item=${dataArray[i]}]`).innerText;
+                values[dataArray[i]] = elm.querySelector(`[data-qs-attr=${dataArray[i]}]`) ? elm.querySelector(`[data-qs-attr=${dataArray[i]}]`).innerText : null;
             }
             return values;
         }
