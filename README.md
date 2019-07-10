@@ -11,6 +11,11 @@ List Search/Filter Class with data-attribute driven API
 | .search( searchValue: string, afterSearch(filteredElements, filteredCount) : fn) | Triggers a search that returns items matching the provided value.  afterSearch() is a callback that gets called after search, but before render                                                       |
 | .filter( filterValue: string, keepState: boolean)                                | Filters out items that match the provided value. Note: .search() returns items that match, while .filter() excludes them.  KeepState stores the filtered list and saves it to use across all actions. |
 | .restoreAll()                                                                    | Restores filtered list to its original state. Primarily to reset filtered lists that have keepState enabled.                                                                                          |
+### Sorting
+
+| Method                                   | Summary                                                                          |
+|------------------------------------------|----------------------------------------------------------------------------------|
+| .sort(attribute: string, sortBy: string) | Sort a given attribute by either DESC or ASC, passed in as the second parameter. |
 
 
 ## Creating a new searchable list instance
@@ -54,11 +59,6 @@ Instaniate a new QSearch list by provided the name of the list as the first argu
     atts: ['example_one','example_two']
   });
 ```
-### Sorting
-
-| Method                                   | Summary                                                                          |
-|------------------------------------------|----------------------------------------------------------------------------------|
-| .sort(attribute: string, sortBy: string) | Sort a given attribute by either DESC or ASC, passed in as the second parameter. |
 
 ## Basic Example
 
