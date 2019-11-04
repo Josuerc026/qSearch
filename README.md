@@ -47,7 +47,7 @@ Instaniate a new QSearch list by provided the name of the list as the first argu
   // A new list instance
   new QSearch('list_name_goes_here', {
     //
-    atts: ['example_one','example_two']
+    attrs: ['example_one','example_two']
   });
 ```
 A set is the overarching container that wraps around the searchable list. Set a name for the set using the *data-qs-set* attribute.
