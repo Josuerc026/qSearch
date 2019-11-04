@@ -89,7 +89,6 @@ class QSearch {
     // Search data by using compare string defined in the items object
     // Checking if value exists within string by checking its index
     search(value, callback) {
-        console.log(this._data);
         let searched = this._data.filter( item => {
             return item.text.toLowerCase().indexOf(value.toLowerCase()) > -1
         });
