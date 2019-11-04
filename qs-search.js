@@ -62,7 +62,6 @@ class QSearch {
     setDataProperties(dataArray) {
         return (elm) => {
             let values = {};
-
             // * elm is the list item element that will be stored to re-render
             values.elm = elm;
             // * compare property is the string that will be compared by search method
@@ -79,17 +78,22 @@ class QSearch {
     // Search data by using compare string defined in the items object
     // Checking if value exists within string by checking its index
     search(value, callback) {
-        let searched = this._data.filter( item => item.text.toLowerCase().indexOf(value.toLowerCase()) > -1 );
+        console.log(this._data);
+        let searched = this._data.filter( item => {
+            return item.text.toLowerCase().indexOf(value.toLowerCase()) > -1
+        });
 
-        // The callback gets called before render
         callback(searched.map(item => item.elm), this._data.length);
         this.render(searched);
     }
 
     // Filter items by provided value
     // keepState will maintain the lists new filtered state across actions
-    filter(value, keepState){
-        let filtered = this._data.filter( item => !(item.text.toLowerCase().indexOf(value.toLowerCase()) > -1) );
+    filterOut(value, keepState) {
+        let filtered = this._data.filter( item => {
+            return !(item.text.toLowerCase().indexOf(value.toLowerCase()) > -1)
+        });
+
         if(keepState){
             this._data = filtered;
         }
@@ -107,6 +111,9 @@ class QSearch {
     sort(key, order) {
         if (!(key && order)) {
             throw Error("Missing an argument - sort(key, order)");
+        }
+        if(!this._data.find(item => item[key])){
+            throw Error(`The column/attribute value'${key}' not found in list '${this._set.dataset.qsSet}'`);
         }
         switch (order) {
             case 'ASC':
