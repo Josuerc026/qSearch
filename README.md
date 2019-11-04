@@ -1,15 +1,36 @@
+
 # qSearch
 List Search/Filter Class with data-attribute driven API
 
+### Settings
 
+
+| Setting                                                                          | Description                                                                                                                                                                                               |
+|----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| *(Required)* attrs |  Attributes/Column values the data list should gather.                                                    |
+| *(Optional )* afterAll(data, count) | Gets called after every data event (searching, filtering, sorting) right before render.                                                       |
+
+```javascript
+  // A new list instance
+  new QSearch('list_name_goes_here', {
+    //
+    atts: ['example_one','example_two'],
+    settings: {
+		afterAll:  function(data, count){
+			console.log(data, count);
+		}
+	}
+  });
+```
 ## Methods available
 
 ### Searching
 
 | Method                                                                           | Summary                                                                                                                                                                                               |
 |----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| .search( searchValue: string, afterSearch(filteredElements, filteredCount) : fn) | Triggers a search that returns items matching the provided value.  afterSearch() is a callback that gets called after search, but before render                                                       |
-| .filter( filterValue: string, keepState: boolean)                                | Filters out items that match the provided value. Note: .search() returns items that match, while .filter() excludes them.  KeepState stores the filtered list and saves it to use across all actions. |
+| .search( searchValue: *string*, afterSearch: *cb*) | Triggers a search that returns items matching the provided value.  afterSearch() is a callback that gets called after search, but before render                                                       |
+| afterSearch(filteredElements, filteredCount) : *callback fn()* | A callback that gets called after search, but before render                                                       |
+| .filterOut( filterValue: *string*, keepState: *boolean*)                                | Filters out items that match the provided value. Note: .search() returns items that match, while .filter() excludes them.  KeepState stores the filtered list and saves it to use across all actions. |
 | .restoreAll()                                                                    | Restores filtered list to its original state. Primarily to reset filtered lists that have keepState enabled.                                                                                          |
 ### Sorting
 
@@ -20,6 +41,15 @@ List Search/Filter Class with data-attribute driven API
 
 ## How to create a new searchable list instance
 
+Instaniate a new QSearch list by provided the name of the list as the first argument and pass in the attributes in the second one.
+
+```javascript
+  // A new list instance
+  new QSearch('list_name_goes_here', {
+    //
+    atts: ['example_one','example_two']
+  });
+```
 A set is the overarching container that wraps around the searchable list. Set a name for the set using the *data-qs-set* attribute.
 
 Specify a searchable list by setting the *data-qs-list*. A list doesn't have to be an ordered/unordered HTML list. It can simply be a div that's directly wrapping around the items that are going to be searched.
@@ -48,16 +78,6 @@ An attribute can be considered as a column in a table. It's the data that'll be 
     </li>
   </ul>
 </div>
-```
-
-Instaniate a new QSearch list by provided the name of the list as the first argument and pass in the attributes in the second one.
-
-```javascript
-  // A new list instance
-  new QSearch('list_name_goes_here', {
-    //
-    atts: ['example_one','example_two']
-  });
 ```
 
 ## Basic Example
