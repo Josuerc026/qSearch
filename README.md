@@ -14,7 +14,7 @@ List Search/Filter Class with data-attribute driven API
   // A new list instance
   new QSearch('list_name_goes_here', {
     //
-    atts: ['example_one','example_two'],
+    attrs: ['example_one','example_two'],
     settings: {
 	afterAll: function(data, count){
 	  // Happens after all events (search, filterOut, sorting) occur
@@ -85,7 +85,7 @@ An attribute can be considered as a column in a table. It's the data that'll be 
 ```javascript
 // A new list instance
 let list = new QSearch('list_one', {
-  atts: ['name','date']
+  attrs: ['name','date']
 });
 
 let input = document.querySelector('.search');
