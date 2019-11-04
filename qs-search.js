@@ -4,6 +4,7 @@ class QSearch {
         this._set = this.storeSet(containerName);
         this._list = this.storeList();
         this._data = this.dataHandler(options);
+        this.moreOptions = this.moreOptions(options);
         this._backupData = this._data;
     }
 
@@ -43,6 +44,16 @@ class QSearch {
             return this.setData(data);
         } else {
             throw Error('data option is not an array.');
+        }
+    }
+
+    moreOptions(options) {
+        if(!options.hasOwnProperty('settings')) return;
+
+        const afterAll = options.settings.afterAll;
+
+        if(afterAll){
+            this._afterAll = afterAll;
         }
     }
 
@@ -156,9 +167,16 @@ class QSearch {
         });
     }
 
+    afterAll(data, count) {
+        if(!this._afterAll) return;
+
+        this._afterAll(data, count);
+    }
+
     // Renders the updated data list by 
     // the stored element reference within each data object
     render(newList) {
+        this.afterAll(newList, this._data.length);
         this._list.innerHTML = newList.map(item => item.elm.outerHTML).join('');
     }
 }
