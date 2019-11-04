@@ -16,10 +16,10 @@ List Search/Filter Class with data-attribute driven API
     //
     atts: ['example_one','example_two'],
     settings: {
-		afterAll:  function(data, count){
-			console.log(data, count);
-		}
+	afterAll: function(data, count){
+	  // Happens after all events (search, filterOut, sorting) occur
 	}
+    }
   });
 ```
 ## Methods available
